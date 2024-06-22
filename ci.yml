@@ -24,7 +24,11 @@ jobs:
     - name: Run SonarQube Analysis
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: mvn sonar:sonar -Dsonar.projectKey=<your-sonar-project-key> -Dsonar.host.url=<your-sonar-server-url>
+      run: |
+        mvn sonar:sonar \
+          -Dsonar.projectKey=TALSAGI1_hello-world-war \
+          https://sonarcloud.io=http://localhost:9000 \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
     - name: Build Docker Image
       run: |
@@ -33,5 +37,5 @@ jobs:
 
     - name: Tag Docker Image
       run: |
-        docker tag hello-world-war:${{ github.run_id }} <your-docker-repo>/hello-world-war:${{ github.run_id }}
-        docker push <your-docker-repo>/hello-world-war:${{ github.run_id }}
+        docker tag hello-world-war:${{ github.run_id }} <ghcr.io/TALSAGI1/hello-world-war>/hello-world-war:${{ github.run_id }}
+        docker push <ghcr.io/TALSAGI1/hello-world-war>/hello-world-war:${{ github.run_id }}
