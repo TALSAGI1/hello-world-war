@@ -13,7 +13,7 @@ pipeline {
             }
         }
 
-        stage('Set up JDK 11.0.21') {
+        stage('Set up JDK 11') {
             steps {
                 script {
                     env.JAVA_HOME = tool name: 'JDK 11', type: 'hudson.model.JDK'
