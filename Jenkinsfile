@@ -13,10 +13,10 @@ pipeline {
             }
         }
 
-        stage('Set up JDK 11') {
+        stage('Set up JDK 17') {
             steps {
                 script {
-                    env.JAVA_HOME = tool name: 'JDK 11', type: 'hudson.model.JDK'
+                    env.JAVA_HOME = tool name: 'JDK 17', type: 'hudson.model.JDK'
                     env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
                 }
             }
