@@ -39,7 +39,7 @@ pipeline {
 
        stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar') {
+                withSonarQubeEnv(installationName: 'sonar' ) {
                     bat """
                         mvn sonar:sonar \
                         -Dsonar.projectKey=TALSAGI1_hello-world-war\
