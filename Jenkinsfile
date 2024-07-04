@@ -40,7 +40,7 @@ pipeline {
         stage('Run SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    bat 'mvn sonar:sonar -Dsonar.projectKey=TALSAGI1_hello-world-war -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%SONAR_TOKEN%'
+                    bat 'mvn -X sonar:sonar -Dsonar.projectKey=TALSAGI1_hello-world-war -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%SONAR_TOKEN%'
                 }
             }
         }
