@@ -39,8 +39,8 @@ pipeline {
 
         stage('Run SonarQube Analysis') {
             steps {
-               withSonarQubeEnv( installationName: 'sonar') {
-                    bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.projectKey=TALSAGI1_hello-world-war -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%SONAR_TOKEN%'
+                withSonarQubeEnv('sonar') {  // Ensure 'sonar' matches the SonarQube installation name in Jenkins
+                    bat "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar -Dsonar.projectKey=TALSAGI1_hello-world-war -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%SONAR_TOKEN%"
                 }
             }
         }
