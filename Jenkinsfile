@@ -21,41 +21,42 @@ pipeline {
                 }
             }
         }
+
         stage('Set up Maven') {
             steps {
-               script {
-                   env.MAVEN_HOME = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
-                   env.PATH = "${env.MAVEN_HOME}\\bin;${env.PATH}"
-               }
-           }
+                script {
+                    env.MAVEN_HOME = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
+                    env.PATH = "${env.MAVEN_HOME}\\bin;${env.PATH}"
+                }
+            }
         }
 
         stage('Build with Maven') {
             steps {
-                 bat 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
 
         stage('Run SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                     bat 'mvn sonar:sonar -Dsonar.projectKey=your_project_key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${SONAR_TOKEN}'
+                    bat 'mvn sonar:sonar -Dsonar.projectKey=your_project_key -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=%SONAR_TOKEN%'
                 }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t hello-world-war:${BUILD_ID} -f module4/Dockerfile .'
+                bat 'docker build -t hello-world-war:%BUILD_ID% -f module4/Dockerfile .'
             }
         }
 
         stage('Tag and Push Docker Image') {
             steps {
                 script {
-                    sh 'docker tag hello-world-war:${BUILD_ID} <your-docker-repo>/hello-world-war:${BUILD_ID}'
-                    sh 'echo ${DOCKER_CREDENTIALS_PSW} | docker login -u ${DOCKER_CREDENTIALS_USR} --password-stdin'
-                    sh 'docker push <your-docker-repo>/hello-world-war:${BUILD_ID}'
+                    bat 'docker tag hello-world-war:%BUILD_ID% <your-docker-repo>/hello-world-war:%BUILD_ID%'
+                    bat 'echo %DOCKER_CREDENTIALS_PSW% | docker login -u %DOCKER_CREDENTIALS_USR% --password-stdin'
+                    bat 'docker push <your-docker-repo>/hello-world-war:%BUILD_ID%'
                 }
             }
         }
