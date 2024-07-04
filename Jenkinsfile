@@ -21,6 +21,14 @@ pipeline {
                 }
             }
         }
+        stage('Set up Maven') {
+            steps {
+               script {
+                   env.MAVEN_HOME = tool name: 'Maven', type: 'hudson.tasks.Maven$MavenInstallation'
+                   env.PATH = "${env.MAVEN_HOME}\\bin;${env.PATH}"
+               }
+           }
+        }
 
         stage('Build with Maven') {
             steps {
